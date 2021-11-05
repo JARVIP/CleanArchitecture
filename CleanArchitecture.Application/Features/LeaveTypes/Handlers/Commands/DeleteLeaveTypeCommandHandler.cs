@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.DTOs.LeaveType.Validators;
+using CleanArchitecture.Application.Exceptions;
 using CleanArchitecture.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.Application.Persistance.Contracts;
+using CleanArchitecture.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -24,6 +27,11 @@ namespace CleanArchitecture.Application.Features.LeaveTypes.Handlers.Commands
         public async Task<Unit> Handle(DeleteLeaveTypeCommand request, CancellationToken cancellationToken)
         {
             var leaveType = await _leaveTypeRepository.Get(request.Id);
+
+            if(leaveType == null)
+            {
+                throw new NotFoundException(nameof(LeaveType), request.Id);
+            }
 
             await _leaveTypeRepository.Delete(leaveType);
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.DTOs.LeaveType.Validators;
+using CleanArchitecture.Application.Exceptions;
 using CleanArchitecture.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.Application.Persistance.Contracts;
 using CleanArchitecture.Domain;
@@ -32,9 +33,8 @@ namespace CleanArchitecture.Application.Features.LeaveTypes.Handlers.Commands
 
             if(!validationResult.IsValid)
             {
-                throw new Exception();
+                throw new ValidationException(validationResult);
             }
-
 
             var leaveType = _mapper.Map<LeaveType>(request.LeaveTypeDto);
 

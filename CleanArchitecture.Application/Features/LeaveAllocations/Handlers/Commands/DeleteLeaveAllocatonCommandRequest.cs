@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Exceptions;
 using CleanArchitecture.Application.Features.LeaveAllocations.Requests.Commands;
 using CleanArchitecture.Application.Persistance.Contracts;
 using MediatR;
@@ -26,6 +27,10 @@ namespace CleanArchitecture.Application.Features.LeaveAllocations.Handlers.Comma
         {
             var leaveAllocation = await _leaveAllocationRepository.Get(request.Id);
 
+            if (leaveAllocation == null)
+            {
+                throw new NotFoundException(nameof(leaveAllocation), request.Id);
+            }
             await _leaveAllocationRepository.Delete(leaveAllocation);
 
             return Unit.Value;
