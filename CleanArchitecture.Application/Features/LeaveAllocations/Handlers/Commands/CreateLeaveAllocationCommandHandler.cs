@@ -2,7 +2,7 @@
 using CleanArchitecture.Application.DTOs.LeaveAllocation.Validators;
 using CleanArchitecture.Application.Exceptions;
 using CleanArchitecture.Application.Features.LeaveAllocations.Requests.Commands;
-using CleanArchitecture.Application.Persistance.Contracts;
+using CleanArchitecture.Application.Contracts.Persistence;
 using CleanArchitecture.Domain;
 using MediatR;
 using System;

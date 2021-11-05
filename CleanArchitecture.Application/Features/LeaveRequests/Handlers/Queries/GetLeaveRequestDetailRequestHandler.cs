@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CleanArchitecture.Application.Persistance.Contracts;
+using CleanArchitecture.Application.Contracts.Persistence;
 
 namespace CleanArchitecture.Application.Features.LeaveRequests.Handlers.Queries
 {

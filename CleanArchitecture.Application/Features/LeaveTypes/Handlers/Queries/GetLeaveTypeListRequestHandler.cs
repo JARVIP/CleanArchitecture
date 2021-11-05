@@ -3,7 +3,7 @@ using CleanArchitecture.Application.DTOs;
 using CleanArchitecture.Application.DTOs.LeaveType;
 using CleanArchitecture.Application.Features.LeaveTypes.Requests;
 using CleanArchitecture.Application.Features.LeaveTypes.Requests.Queries;
-using CleanArchitecture.Application.Persistance.Contracts;
+using CleanArchitecture.Application.Contracts.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Persistance.Contracts;
+﻿using CleanArchitecture.Application.Contracts.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

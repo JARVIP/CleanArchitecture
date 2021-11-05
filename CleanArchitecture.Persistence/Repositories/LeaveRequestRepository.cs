@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Persistance.Contracts;
+﻿using CleanArchitecture.Application.Contracts.Persistence;
 using CleanArchitecture.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
