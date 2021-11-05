@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchitecture.Application.Contracts.Infrastructure;
+using CleanArchitecture.Application.Models;
 
 namespace CleanArchitecture.Application.Features.LeaveRequests.Handlers.Commands
 {
@@ -19,12 +21,14 @@ namespace CleanArchitecture.Application.Features.LeaveRequests.Handlers.Commands
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
-        public CreateLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
+        public CreateLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository, IEmailSender emailSender, IMapper mapper)
         {
             _leaveRequestRepository = leaveRequestRepository;
             _leaveTypeRepository = leaveTypeRepository;
+            _emailSender = emailSender;
             _mapper = mapper;
         }
 
@@ -49,6 +53,22 @@ namespace CleanArchitecture.Application.Features.LeaveRequests.Handlers.Commands
             response.Success = true;
             response.Message = "Creation Successful";
             response.Id = leaveRequest.Id;
+
+
+            var email = new Email
+            {
+                To = "Empoyee@gmail.com",
+                Body = $"Your leave request for {request.LeaveRequestDto.StartDate} to {request.LeaveRequestDto.EndDate} " +
+                $"has been submitted successfully.",
+                Subject = "Leave Request Submitted"
+            };
+            try
+            {
+                await _emailSender.SendEmail(email);
+            }catch(Exception ex)
+            {
+                /// log 
+            }
 
             return response;
         }
