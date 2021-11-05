@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Domain;
+﻿using CleanArchitecture.Application.DTOs.LeaveRequest;
+using CleanArchitecture.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
