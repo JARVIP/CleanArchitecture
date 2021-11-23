@@ -3,6 +3,7 @@ using CleanArchitecture.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.Application.Features.LeaveTypes.Requests.Queries;
 using CleanArchitecture.Application.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +17,7 @@ namespace CleanArchitecture.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LeaveTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,7 +28,7 @@ namespace CleanArchitecture.API.Controllers
         }
         // GET: api/<LeaveTypesController>
         [HttpGet]
-        public async Task<List<LeaveTypeDto>> Get()
+        public async Task<ActionResult<List<LeaveTypeDto>>> Get()
         {
             var leaveTypes = await _mediator.Send(new GetLeaveTypeListRequest());
             return leaveTypes;

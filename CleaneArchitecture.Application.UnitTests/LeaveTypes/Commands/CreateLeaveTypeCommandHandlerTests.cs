@@ -56,7 +56,7 @@ namespace CleanArchitecture.Application.UnitTests.LeaveTypes.Commands
 
             var leaveTypes = await _mockRepo.Object.GetAll();
 
-            result.ShouldBeOfType<int>();
+            result.ShouldBeOfType<BaseCommandResponse>();
 
             leaveTypes.Count.ShouldBe(4);
         }
@@ -66,14 +66,14 @@ namespace CleanArchitecture.Application.UnitTests.LeaveTypes.Commands
         {
             _leaveTypeDto.DefaultDays = -1;
 
-            ValidationException ex = await Should.ThrowAsync<ValidationException>
-            (async () =>
-                await _handler.Handle(new CreateLeaveTypeCommand() { LeaveTypeDto = _leaveTypeDto }, CancellationToken.None)
-            );
+            var result = await _handler.Handle(new CreateLeaveTypeCommand() { LeaveTypeDto = _leaveTypeDto }, CancellationToken.None);
+
 
             var leaveTypes = await _mockRepo.Object.GetAll();
 
             leaveTypes.Count.ShouldBe(3);
+
+            result.ShouldBeOfType<BaseCommandResponse>();
         }
     }
 }
