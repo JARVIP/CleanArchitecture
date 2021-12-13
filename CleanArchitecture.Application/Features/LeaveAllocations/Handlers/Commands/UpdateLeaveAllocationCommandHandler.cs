@@ -2,11 +2,12 @@
 using CleanArchitecture.Application.DTOs.LeaveAllocation.Validators;
 using CleanArchitecture.Application.Exceptions;
 using CleanArchitecture.Application.Features.LeaveAllocations.Requests.Commands;
+using CleanArchitecture.Application.Features.LeaveTypes.Requests.Commands;
 using CleanArchitecture.Application.Contracts.Persistence;
+using CleanArchitecture.Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,34 +16,34 @@ namespace CleanArchitecture.Application.Features.LeaveAllocations.Handlers.Comma
 {
     public class UpdateLeaveAllocationCommandHandler : IRequestHandler<UpdateLeaveAllocationCommand, Unit>
     {
-        private readonly ILeaveAllocationRepository _leaveAllocationRepository;
-        private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UpdateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
+        public UpdateLeaveAllocationCommandHandler(
+            IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
-            _leaveAllocationRepository = leaveAllocationRepository;
-            _leaveTypeRepository = leaveTypeRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<Unit> Handle(UpdateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UpdateLeaveAllocationDtoValidator(_leaveTypeRepository);
+            var validator = new UpdateLeaveAllocationDtoValidator(_unitOfWork.LeaveTypeRepository);
+            var validationResult = await validator.ValidateAsync(request.LeaveAllocationDto);
 
-            var validationResult = await validator.ValidateAsync(request.UpdateLeaveAllocationDto);
-
-            if (!validationResult.IsValid)
-            {
+            if (validationResult.IsValid == false)
                 throw new ValidationException(validationResult);
-            }
 
-            var leaveAllocation = await _leaveAllocationRepository.Get(request.UpdateLeaveAllocationDto.Id);
+            var leaveAllocation = await _unitOfWork.LeaveAllocationRepository.Get(request.LeaveAllocationDto.Id);
 
-            _mapper.Map(request.UpdateLeaveAllocationDto, leaveAllocation);
+            if (leaveAllocation is null)
+                throw new NotFoundException(nameof(leaveAllocation), request.LeaveAllocationDto.Id);
 
-            await _leaveAllocationRepository.Update(leaveAllocation);
+            _mapper.Map(request.LeaveAllocationDto, leaveAllocation);
 
+            await _unitOfWork.LeaveAllocationRepository.Update(leaveAllocation);
+            await _unitOfWork.Save();
             return Unit.Value;
         }
     }

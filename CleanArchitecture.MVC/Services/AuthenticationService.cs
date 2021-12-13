@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.MVC.Models;
 using CleanArchitecture.MVC.Services.Base;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,9 +12,8 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CleanArchitecture.MVC.Contracts;
 
-namespace CleanArchitecture.MVC.Services
+namespace CleanArchitecture.MVC.Contracts
 {
     public class AuthenticationService : BaseHttpService, IAuthenticationService
     {
@@ -34,20 +34,20 @@ namespace CleanArchitecture.MVC.Services
         {
             try
             {
-                //AuthRequest authenticationRequest = new() { Email = email, Password = password };
-                //var authenticationResponse = await _client.LoginAsync(authenticationRequest);
+                AuthRequest authenticationRequest = new() { Email = email, Password = password };
+                var authenticationResponse = await _client.LoginAsync(authenticationRequest);
 
-                //if (authenticationResponse.Token != string.Empty)
-                //{
-                //    //Get Claims from token and Build auth user object
-                //    var tokenContent = _tokenHandler.ReadJwtToken(authenticationResponse.Token);
-                //    var claims = ParseClaims(tokenContent);
-                //    var user = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
-                //    var login = _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
-                //    _localStorage.SetStorageValue("token", authenticationResponse.Token);
+                if (authenticationResponse.Token != string.Empty)
+                {
+                    //Get Claims from token and Build auth user object
+                    var tokenContent = _tokenHandler.ReadJwtToken(authenticationResponse.Token);
+                    var claims = ParseClaims(tokenContent);
+                    var user = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
+                    var login = _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
+                    _localStorage.SetStorageValue("token", authenticationResponse.Token);
 
-                //    return true;
-                //}
+                    return true;
+                }
                 return false;
             }
             catch 
@@ -59,21 +59,21 @@ namespace CleanArchitecture.MVC.Services
         public async Task<bool> Register(RegisterVM registration)
         {
 
-            //RegistrationRequest registrationRequest = _mapper.Map<RegistrationRequest>(registration);
-            //var response = await _client.RegisterAsync(registrationRequest);
+            RegistrationRequest registrationRequest = _mapper.Map<RegistrationRequest>(registration);
+            var response = await _client.RegisterAsync(registrationRequest);
 
-            //if (!string.IsNullOrEmpty(response.UserId))
-            //{
-            //    await Authenticate(registration.Email, registration.Password);
-            //    return true;
-            //}
+            if (!string.IsNullOrEmpty(response.UserId))
+            {
+                await Authenticate(registration.Email, registration.Password);
+                return true;
+            }
             return false;
         }
 
         public async Task Logout()
         {
             _localStorage.ClearStorage(new List<string> { "token" });
-            //await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         private IList<Claim> ParseClaims(JwtSecurityToken tokenContent)

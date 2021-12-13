@@ -23,6 +23,12 @@ namespace CleanArchitecture.Persistence.Repositories
             await _dbContext.AddRangeAsync(allocations);
         }
 
+        public async Task<bool> AllocationExists(string userId, int leaveTypeId, int period)
+        {
+            return await _dbContext.LeaveAllocations.AnyAsync(q => q.EmployeeId == userId
+                                        && q.LeaveTypeId == leaveTypeId
+                                        && q.Period == period);
+        }
 
         public async Task<List<LeaveAllocation>> GetLeaveAllocationsWithDetails()
         {
@@ -32,6 +38,13 @@ namespace CleanArchitecture.Persistence.Repositories
             return leaveAllocations;
         }
 
+        public async Task<List<LeaveAllocation>> GetLeaveAllocationsWithDetails(string userId)
+        {
+            var leaveAllocations = await _dbContext.LeaveAllocations.Where(q => q.EmployeeId == userId)
+               .Include(q => q.LeaveType)
+               .ToListAsync();
+            return leaveAllocations;
+        }
 
         public async Task<LeaveAllocation> GetLeaveAllocationWithDetails(int id)
         {
@@ -42,5 +55,10 @@ namespace CleanArchitecture.Persistence.Repositories
             return leaveAllocation;
         }
 
+        public async Task<LeaveAllocation> GetUserAllocations(string userId, int leaveTypeId)
+        {
+            return await _dbContext.LeaveAllocations.FirstOrDefaultAsync(q => q.EmployeeId == userId
+                                        && q.LeaveTypeId == leaveTypeId);
+        }
     }
 }

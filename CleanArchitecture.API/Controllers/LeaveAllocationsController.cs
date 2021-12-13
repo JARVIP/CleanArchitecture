@@ -30,7 +30,7 @@ namespace CleanArchitecture.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<LeaveAllocationDto>>> Get(bool isLoggedInUser = false)
         {
-            var leaveAllocations = await _mediator.Send(new GetLeaveAllocationListRequest());
+            var leaveAllocations = await _mediator.Send(new GetLeaveAllocationListRequest() { IsLoggedInUser = isLoggedInUser });
             return Ok(leaveAllocations);
         }
 
@@ -55,7 +55,7 @@ namespace CleanArchitecture.Api.Controllers
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] UpdateLeaveAllocationDto leaveAllocation)
         {
-            var command = new UpdateLeaveAllocationCommand { UpdateLeaveAllocationDto = leaveAllocation };
+            var command = new UpdateLeaveAllocationCommand { LeaveAllocationDto = leaveAllocation };
             await _mediator.Send(command);
             return NoContent();
         }
@@ -64,7 +64,7 @@ namespace CleanArchitecture.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var command = new DeleteLeaveAllocatonCommand { Id = id };
+            var command = new DeleteLeaveAllocationCommand { Id = id };
             await _mediator.Send(command);
             return NoContent();
         }

@@ -1,6 +1,4 @@
-﻿using CleanArchitecture.Application.DTOs.LeaveAllocation;
-using CleanArchitecture.Application.DTOs.LeaveRequest;
-
+﻿using CleanArchitecture.Application.DTOs.LeaveRequest;
 using CleanArchitecture.Application.Features.LeaveRequests.Requests.Commands;
 using CleanArchitecture.Application.Features.LeaveRequests.Requests.Queries;
 using CleanArchitecture.Application.Responses;
@@ -32,7 +30,7 @@ namespace CleanArchitecture.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<LeaveRequestListDto>>> Get(bool isLoggedInUser = false)
         {
-            var leaveRequests = await _mediator.Send(new GetLeaveRequestListRequest());
+            var leaveRequests = await _mediator.Send(new GetLeaveRequestListRequest() { IsLoggedInUser = isLoggedInUser });
             return Ok(leaveRequests);
         }
 

@@ -18,25 +18,25 @@ namespace CleanArchitecture.Identity.Configurations
                  new ApplicationUser
                  {
                      Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                     Email = "admin@admin.com",
-                     NormalizedEmail = "ADMIN@ADMIN.COM",
+                     Email = "admin@localhost.com",
+                     NormalizedEmail = "ADMIN@LOCALHOST.COM",
                      FirstName = "System",
                      LastName = "Admin",
-                     UserName = "admin@admin.com",
-                     NormalizedUserName = "ADMIN@ADMIN.COM",
-                     PasswordHash = hasher.HashPassword(null, "Pa$$w0rd"),
+                     UserName = "admin@localhost.com",
+                     NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                     PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                      EmailConfirmed = true
                  },
                  new ApplicationUser
                  {
                      Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
-                     Email = "user@admin.com",
-                     NormalizedEmail = "USER@USER.COM",
+                     Email = "user@localhost.com",
+                     NormalizedEmail = "USER@LOCALHOST.COM",
                      FirstName = "System",
                      LastName = "User",
-                     UserName = "user@user.com",
-                     NormalizedUserName = "USER@USER.COM",
-                     PasswordHash = hasher.HashPassword(null, "Pa$$w0rd"),
+                     UserName = "user@localhost.com",
+                     NormalizedUserName = "USER@LOCALHOST.COM",
+                     PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                      EmailConfirmed = true
                  }
             );

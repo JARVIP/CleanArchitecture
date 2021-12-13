@@ -16,7 +16,7 @@ namespace CleanArchitecture.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CleanArchitecture.Domain.LeaveAllocation", b =>
@@ -32,7 +32,10 @@ namespace CleanArchitecture.Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LasModifiedBy")
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModifiedDate")
@@ -64,9 +67,6 @@ namespace CleanArchitecture.Persistence.Migrations
                     b.Property<bool?>("Approved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ApprovedById")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Cancelled")
                         .HasColumnType("bit");
 
@@ -85,7 +85,7 @@ namespace CleanArchitecture.Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LasModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModifiedDate")
@@ -95,6 +95,9 @@ namespace CleanArchitecture.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RequestComments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequestingEmployeeId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
@@ -123,7 +126,7 @@ namespace CleanArchitecture.Persistence.Migrations
                     b.Property<int>("DefaultDays")
                         .HasColumnType("int");
 
-                    b.Property<string>("LasModifiedBy")
+                    b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastModifiedDate")

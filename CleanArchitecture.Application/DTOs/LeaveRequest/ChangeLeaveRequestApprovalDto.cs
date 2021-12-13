@@ -7,6 +7,6 @@ namespace CleanArchitecture.Application.DTOs.LeaveRequest
 {
     public class ChangeLeaveRequestApprovalDto : BaseDto
     {
-        public bool? Approved { get; set; }
+        public bool Approved { get; set; }
     }
 }

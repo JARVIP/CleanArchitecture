@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
+using CleanArchitecture.Application.Contracts.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CleanArchitecture.Application.Contracts.Persistence;
 
 namespace CleanArchitecture.Application.DTOs.LeaveRequest.Validators
 {

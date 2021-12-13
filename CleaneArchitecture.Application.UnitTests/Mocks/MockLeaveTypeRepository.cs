@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleaneArchitecture.Application.UnitTests.Mocks
+namespace CleanArchitecture.Application.UnitTests.Mocks
 {
     public static class MockLeaveTypeRepository
     {
@@ -39,7 +39,7 @@ namespace CleaneArchitecture.Application.UnitTests.Mocks
 
             mockRepo.Setup(r => r.GetAll()).ReturnsAsync(leaveTypes);
 
-            mockRepo.Setup(r => r.Add(It.IsAny<LeaveType>())).ReturnsAsync((LeaveType leaveType) =>
+            mockRepo.Setup(r => r.Add(It.IsAny<LeaveType>())).ReturnsAsync((LeaveType leaveType) => 
             {
                 leaveTypes.Add(leaveType);
                 return leaveType;

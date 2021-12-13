@@ -19,5 +19,6 @@ namespace CleanArchitecture.Domain
         public bool? Approved { get; set; }
         public bool Cancelled { get; set; }
         public string ApprovedById { get; set; }
+        public string RequestingEmployeeId { get; set; }
     }
 }

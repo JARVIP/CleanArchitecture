@@ -1,11 +1,10 @@
-﻿using CleanArchitecture.MVC.Contracts;
-using Hanssens.Net;
+﻿using Hanssens.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CleanArchitecture.MVC.Services
+namespace CleanArchitecture.MVC.Contracts
 {
     public class LocalStorageService : ILocalStorageService
     {
@@ -17,7 +16,7 @@ namespace CleanArchitecture.MVC.Services
             {
                 AutoLoad = true,
                 AutoSave = true,
-                Filename = "CA.MVC"
+                Filename = "HR.LEAVEMGMT"
             };
             _storage = new LocalStorage(config);
         }
